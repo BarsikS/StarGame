@@ -1,6 +1,7 @@
 package com.mygdx.game.base;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
@@ -10,6 +11,7 @@ public class Base2DClass implements Screen, InputProcessor{
 
     public Base2DClass(Game game) {
         this.game = game;
+        Gdx.input.setInputProcessor(this);
     }
 
     @Override
@@ -53,31 +55,37 @@ public class Base2DClass implements Screen, InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
+        System.out.println("keyDown = " + keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        System.out.println("keyUp = " + keycode);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
+        System.out.println("keyTyped = " + character);
         return false;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        System.out.println("touchDown = " + screenX + " " + screenY + " "+ pointer + " "+ button + " ");
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        System.out.println("touchUp = " + screenX + " " + screenY + " "+ pointer + " "+ button + " ");
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        System.out.println("touchDragged = " + screenX + " " + screenY + " "+ pointer);
         return false;
     }
 
@@ -88,6 +96,7 @@ public class Base2DClass implements Screen, InputProcessor{
 
     @Override
     public boolean scrolled(int amount) {
+        System.out.println("scrolled = " + amount);
         return false;
     }
 }
