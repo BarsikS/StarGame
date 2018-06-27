@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class GameClass extends ApplicationAdapter {
+public class StarGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	Vector2 pos, v;
