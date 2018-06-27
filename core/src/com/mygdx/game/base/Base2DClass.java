@@ -1,8 +1,17 @@
 package com.mygdx.game.base;
 
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 
-public class Base2DClass implements Screen{
+public class Base2DClass implements Screen, InputProcessor{
+
+    protected Game game;
+
+    public Base2DClass(Game game) {
+        this.game = game;
+    }
+
     @Override
     public void show() {
         System.out.println("show...");
@@ -31,10 +40,54 @@ public class Base2DClass implements Screen{
     @Override
     public void hide() {
         System.out.println("hide...");
+        dispose();
     }
 
     @Override
     public void dispose() {
         System.out.println("dispose...");
+    }
+
+//////////////////////////////////////////////
+
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
