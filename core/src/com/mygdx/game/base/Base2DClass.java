@@ -4,8 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.mygdx.game.math.Rect;
 
 public class Base2DClass implements Screen, InputProcessor{
+
+    private Rect screenBounds; //границы экрана в пикселях
+    private Rect worldBounds; //границы проекции мировых координат
 
     protected Game game;
 
