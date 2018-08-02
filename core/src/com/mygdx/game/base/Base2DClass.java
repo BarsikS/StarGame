@@ -52,9 +52,9 @@ public class Base2DClass implements Screen, InputProcessor{
         screenBounds.setLeft(0);
         screenBounds.setBottom(0);
 
-        float a = width/(float)height;
+        float aspect = width/(float)height;
         worldBounds.setHeight(42f);
-        worldBounds.setWidth(42f * a);
+        worldBounds.setWidth(42f * aspect);
         MatrixUtils.calcTransitionMatrix(worldToGL, worldBounds, glBounds);
         batch.setProjectionMatrix(worldToGL);
 
