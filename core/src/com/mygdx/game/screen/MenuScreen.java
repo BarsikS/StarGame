@@ -8,24 +8,36 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import com.mygdx.game.base.ActionListener;
 import com.mygdx.game.base.Base2DScreen;
+import com.mygdx.game.base.Sprite;
 import com.mygdx.game.math.Rect;
 import com.mygdx.game.math.Rnd;
 import com.mygdx.game.sprite.Background;
+import com.mygdx.game.sprite.ButtonExit;
+import com.mygdx.game.sprite.ButtonPlay;
 import com.mygdx.game.sprite.Star;
-
-import java.util.ArrayList;
 
 /**
  * Экран меню
  */
 
-public class MenuScreen extends Base2DScreen {
+public class MenuScreen extends Base2DScreen implements ActionListener {
+
+    private static final int STAR_COUNT = 256;
+    private static final float STAR_HEIGHT = 0.01f;
+
+    private static final float PRESS_SCALE = 0.9f;
+    private static final float BUTTON_HEIGHT = 0.15f;
 
     private Background background;
     private Texture bg;
+    private Star star[];
     private TextureAtlas atlas;
-    private ArrayList<Star> stars = new ArrayList<Star>();
+
+    private ButtonExit buttonExit;
+    private ButtonPlay buttonPlay;
 
 
     public MenuScreen(Game game) {
@@ -35,13 +47,19 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void show() {
         super.show();
-        bg = new Texture("textures/bg.jpg");
+        bg = new Texture("textures/bg.png");
         background = new Background(new TextureRegion(bg));
-        atlas = new TextureAtlas("images.atlas");
+        atlas = new TextureAtlas("textures/menuAtlas.tpack");
         TextureRegion starRegion = atlas.findRegion("star");
-        for (int i = 0; i < 256; i++)
-            stars.add(new Star(starRegion, Rnd.nextFloat(-0.005f, 0f),  Rnd.nextFloat(-2f, -0.1f), Rnd.nextFloat(0.001f, 0.007f)));
+        star = new Star[STAR_COUNT];
+        for (int i = 0; i < star.length; i++) {
+            star[i] = new Star(starRegion, Rnd.nextFloat(-0.005f, 0.005f), Rnd.nextFloat(-0.5f, -0.1f), STAR_HEIGHT);
         }
+        buttonExit = new ButtonExit(atlas, this, PRESS_SCALE);
+        buttonExit.setHeightProportion(BUTTON_HEIGHT);
+        buttonPlay = new ButtonPlay(atlas, this, PRESS_SCALE);
+        buttonPlay.setHeightProportion(BUTTON_HEIGHT);
+    }
 
     @Override
     public void render(float delta) {
@@ -51,9 +69,8 @@ public class MenuScreen extends Base2DScreen {
     }
 
     public void update(float delta) {
-        for (Star star : stars
-                ) {
-            star.update(delta);
+        for (int i = 0; i < star.length; i++) {
+            star[i].update(delta);
         }
     }
 
@@ -62,10 +79,11 @@ public class MenuScreen extends Base2DScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         background.draw(batch);
-        for (Star star : stars
-             ) {
-            star.draw(batch);
+        for (int i = 0; i < star.length; i++) {
+            star[i].draw(batch);
         }
+        buttonExit.draw(batch);
+        buttonPlay.draw(batch);
         batch.end();
     }
 
@@ -79,20 +97,36 @@ public class MenuScreen extends Base2DScreen {
     @Override
     public void touchDown(Vector2 touch, int pointer) {
         super.touchDown(touch, pointer);
+        buttonExit.touchDown(touch, pointer);
+        buttonPlay.touchDown(touch, pointer);
     }
 
     @Override
     public void touchUp(Vector2 touch, int pointer) {
         super.touchUp(touch, pointer);
+        buttonExit.touchUp(touch, pointer);
+        buttonPlay.touchUp(touch, pointer);
     }
 
     @Override
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         background.resize(worldBounds);
-        for (Star star : stars
-                ) {
-            star.resize(worldBounds);
+        for (int i = 0; i < star.length; i++) {
+            star[i].resize(worldBounds);
+        }
+        buttonExit.resize(worldBounds);
+        buttonPlay.resize(worldBounds);
+    }
+
+    @Override
+    public void actionPerformed(Object src) {
+        if (src == buttonExit) {
+            Gdx.app.exit();
+        } else if (src == buttonPlay) {
+            game.setScreen(new GameScreen(game));
+        } else {
+            throw new RuntimeException("Unknown src");
         }
     }
 }
